@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/scores" enctype="multipart/form-data" method="POST">
+
+    <div class="btn-group">
+        <a href="/classes" class="btn"> classes</a>
+        <a href="/pupils" class="btn">pupils</a>
+        <a href="/schools" class="btn">schools</a>
+        <a href="/scores" class="btn">scores</a>
+        <a href="/subject" class="btn">subject</a>
+    </div>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Subject Id</th>
+            <th>Pupil Id</th>
+            <th>Score</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+        </tr>
+
+            <tr>
+                <td>{{.Scores.Id}}</td>
+                <td>{{.Scores.SubjectId}}</td>
+                <td>{{.Scores.PupilId}}</td>
+                <td>{{.Scores.Score}}</td>
+                <td>{{.Scores.CreateAt}}</td>
+                <td>{{.Scores.UpdatedAt}}</td>
+            </tr>
+
+    </table>
+</form>
+</body>
+</html>

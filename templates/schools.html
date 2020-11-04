@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <link rel="stylesheet" href="../assets/css/style.css" type="text/css" >
+</head>
+<body>
+
+{{if .IsEdit}}
+
+    <form action="/schools" enctype="multipart/form-data" method="POST">
+        <div class="btn-group">
+            <a href="/classes" class="btn"> classes</a>
+            <a href="/pupils" class="btn">pupils</a>
+            <a href="/schools" class="btn">schools</a>
+            <a href="/scores" class="btn">scores</a>
+            <a href="/subject" class="btn">subject</a>
+        </div>
+        <br><br><br>
+
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Number Of Classes</th>
+                <th>Call Center</th>
+                <th>Address</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+            </tr>
+
+            <div>
+                <label>
+                    Name:<input type="text" name="Name" placeholder="Имя" autocomplete="on"
+                                value="{{.Schools.Name}}"/>
+                    {{range $keyOrIndex, $value := .Error.Name}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    NumberOfPupils:<input type="text" name="NumberOfPupils" placeholder="Имя" autocomplete="on"
+                                          value="{{.Schools.NumberOfClasses}}"/>
+                    {{range $keyOrIndex, $value := .Error.NumberOfClasses}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    Name:<input type="text" name="CallCenter" placeholder="Имя" autocomplete="on"
+                                value="{{.Schools.CallCenter}}"/>
+                    {{range $keyOrIndex, $value := .Error.CallCenter}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    NumberOfPupils:<input type="text" name="Address" placeholder="Имя" autocomplete="on"
+                                          value="{{.Schools.Address}}"/>
+                    {{range $keyOrIndex, $value := .Error.Address}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    CreateAt:<input type="text" name="CreateAt" placeholder="Имя" autocomplete="on"
+                                    value="{{.Schools.CreateAt}}"/>
+                    {{range $keyOrIndex, $value := .Error.CreateAt}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    UpdatedAt:<input type="text" name="UpdatedAt" placeholder="Имя" autocomplete="on"
+                                     value="{{.Schools.UpdatedAt}}"/>
+                    {{range $keyOrIndex, $value := .Error.UpdatedAt}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+
+                </label>
+                <input id="bt" type="submit" value="Добавить"/>{{if .Classes.Id}}или <a href="/AddSchools">создать
+                нового</a>{{end}}
+            </div>
+            <br><br>
+
+            <tr>
+                <td>{{.Schools.Id}}</td>
+                <td>{{.Schools.Name}}</td>
+                <td>{{.Schools.NumberOfClasses}}</td>
+                <td>{{.Schools.CallCenter}}</td>
+                <td>{{.Schools.Address}}</td>
+                <td>{{.Schools.CreateAt}}</td>
+                <td>{{.Schools.UpdatedAt}}</td>
+            </tr>
+
+        </table>
+    </form>
+{{end}}
+</body>
+</html>

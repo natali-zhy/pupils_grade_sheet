@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css" >
+
+
+    <title>Title</title>
+</head>
+
+<body>
+{{if .IsEdit}}
+
+    <form action="/classes" enctype="multipart/form-data" method="POST">
+        <lable class="center">
+
+        <div class="btn-group center">
+            <a href="/classes" class="btn"> classes</a>
+            <a href="/pupils" class="btn">pupils</a>
+            <a href="/schools" class="btn">schools</a>
+            <a href="/scores" class="btn">scores</a>
+            <a href="/subject" class="btn">subject</a>
+        </div>
+        </lable>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>School Id</th>
+                <th>Name</th>
+                <th>Number Of Pupils</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+            </tr>
+            <br><br>
+            <br><br>
+
+            <div>
+                <label>
+                    Name:<input type="text" name="Name" placeholder="Имя" autocomplete="on"
+                                value="{{.Classes.Name}}"/>
+                    {{range $keyOrIndex, $value := .Error.Name}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    NumberOfPupils:<input type="text" name="NumberOfPupils" placeholder="Имя" autocomplete="on"
+                                          value="{{.Classes.NumberOfPupils}}"/>
+                    {{range $keyOrIndex, $value := .Error.NumberOfPupils}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    CreateAt:<input type="text" name="CreateAt" placeholder="Имя" autocomplete="on"
+                                    value="{{.Classes.CreateAt}}"/>
+                    {{range $keyOrIndex, $value := .Error.CreateAt}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+                </label>
+                <label>
+                    UpdatedAt:<input type="text" name="UpdatedAt" placeholder="Имя" autocomplete="on"
+                                     value="{{.Classes.UpdatedAt}}"/>
+                    {{range $keyOrIndex, $value := .Error.UpdatedAt}}
+                        {{if ne $value ""}}
+                            <p>{{$value}}</p>
+                        {{end}}
+                    {{end}}
+
+                </label>
+                <input id="bt" class="button" type="submit" value="Добавить"/>{{if .Classes.Id}}или <a
+                    href="/addNewStudent">создать
+                нового</a>{{end}}
+            </div>
+
+            <br><br>
+
+            <tr>
+                <td>{{.Classes.Id}}</td>
+                <td>{{.Classes.SchoolId}}</td>
+                <td>{{.Classes.Name}}</td>
+                <td>{{.Classes.NumberOfPupils}}</td>
+                <td>{{.Classes.CreateAt}}</td>
+                <td>{{.Classes.UpdatedAt}}</td>
+            </tr>
+
+        </table>
+    </form>
+{{end}}
+
+
+</body>
+</html>
