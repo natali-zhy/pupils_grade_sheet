@@ -1,54 +1,54 @@
-CREATE TABLE "Schools" (
-  "Id" bigserial PRIMARY KEY,
-  "Name" varchar NOT NULL,
-  "NumberOfClasses" int NOT NULL,
-  "CallCenter" varchar NOT NULL,
-  "Address" varchar NOT NULL,
-  "CreatedAt" varchar NOT NULL,
-  "UpdatedAt" varchar NOT NULL
+CREATE TABLE "schools" (
+  "id" bigserial PRIMARY KEY,
+  "name" varchar NOT NULL,
+  "numberofclasses" int NOT NULL,
+  "callcenter" varchar NOT NULL,
+  "address" varchar NOT NULL,
+  "createdat" timestamp NOT NULL,
+  "updatedat" timestamp NOT NULL
 );
 
-CREATE TABLE "Classes" (
-  "Id" bigserial PRIMARY KEY,
-  "SchoolId" bigserial NOT NULL,
-  "Name" varchar NOT NULL,
-  "NumberOfPupils" varchar NOT NULL,
-  "CreateAt" varchar NOT NULL,
-  "UpdatedAt" varchar NOT NULL
+CREATE TABLE "classes" (
+  "id" bigserial PRIMARY KEY,
+  "schoolid" int NOT NULL,
+  "name" varchar NOT NULL,
+  "numberofpupils" integer NOT NULL,
+  "createdat" timestamp NOT NULL,
+  "updatedat" timestamp NOT NULL
 );
 
-CREATE TABLE "Pupils" (
-  "Id" bigserial PRIMARY KEY,
-  "ClassId" bigserial NOT NULL,
-  "Name" varchar NOT NULL,
-  "Surname" varchar NOT NULL,
-  "Patronymic" varchar NOT NULL,
-  "Gender" varchar NOT NULL,
-  "Address" varchar NOT NULL,
-  "CreateAt" varchar NOT NULL,
-  "UpdatedAt" varchar NOT NULL
+CREATE TABLE "pupils" (
+  "id" bigserial PRIMARY KEY,
+  "classid" int NOT NULL,
+  "name" varchar NOT NULL,
+  "surname" varchar NOT NULL,
+  "patronymic" varchar NOT NULL,
+  "gender" varchar NOT NULL,
+  "address" varchar NOT NULL,
+  "createdat" timestamp NOT NULL,
+  "updatedat" timestamp NOT NULL
 );
 
-CREATE TABLE "Scores" (
-  "Id" bigserial PRIMARY KEY,
-  "SubjectId" bigserial NOT NULL,
-  "PupilId" bigserial NOT NULL,
-  "Score" varchar NOT NULL,
-  "CreateAt" varchar NOT NULL,
-  "UpdatedAt" varchar NOT NULL
+CREATE TABLE "scores" (
+  "id" bigserial PRIMARY KEY,
+  "subjectid" int NOT NULL,
+  "pupilid" int NOT NULL,
+  "score" integer NOT NULL,
+  "createdat" timestamp NOT NULL,
+  "updatedat" timestamp NOT NULL
 );
 
-CREATE TABLE "Subject" (
-  "Id" bigserial PRIMARY KEY,
-  "Name" varchar NOT NULL,
-  "CreateAt" varchar NOT NULL,
-  "UpdatedAt" varchar NOT NULL
+CREATE TABLE "subject" (
+  "id" bigserial PRIMARY KEY,
+  "name" varchar NOT NULL,
+  "createdat" timestamp NOT NULL,
+  "updatedat" timestamp NOT NULL
 );
 
-ALTER TABLE "Classes" ADD FOREIGN KEY ("SchoolId") REFERENCES "Schools" ("Id");
+ALTER TABLE "classes" ADD FOREIGN KEY ("schoolid") REFERENCES "schools" ("id");
 
-ALTER TABLE "Pupils" ADD FOREIGN KEY ("ClassId") REFERENCES "Classes" ("Id");
+ALTER TABLE "pupils" ADD FOREIGN KEY ("classid") REFERENCES "classes" ("id");
 
-ALTER TABLE "Scores" ADD FOREIGN KEY ("PupilId") REFERENCES "Pupils" ("Id");
+ALTER TABLE "scores" ADD FOREIGN KEY ("pupilid") REFERENCES "pupils" ("id");
 
-ALTER TABLE "Scores" ADD FOREIGN KEY ("SubjectId") REFERENCES "Subject" ("Id");
+ALTER TABLE "scores" ADD FOREIGN KEY ("subjectid") REFERENCES "subject" ("id");

@@ -7,7 +7,7 @@ type Classes struct {
 	SchoolId       int64     `db:"SchoolId"`
 	Name           string    `db:"Name"`
 	NumberOfPupils int64     `db:"NumberOfPupils"`
-	CreateAt       time.Time `db:"CreateAt"`
+	CreatedAt      time.Time `db:"CreatedAt"`
 	UpdatedAt      time.Time `db:"UpdatedAt"`
 }
 
@@ -19,17 +19,17 @@ type Pupils struct {
 	Patronymic string    `db:"Patronymic"`
 	Gender     string    `db:"Gender"`
 	Address    string    `db:"Address"`
-	CreateAt   time.Time `db:"CreateAt"`
+	CreatedAt  time.Time `db:"CreatedAt"`
 	UpdatedAt  time.Time `db:"UpdatedAt"`
 }
 type Schools struct {
-	Id              int64     `db:"Id"`
-	Name            string    `db:"Name"`
-	NumberOfClasses int64     `db:"NumberOfClasses"`
-	CallCenter      string    `db:"CallCenter"`
-	Address         string    `db:"Address"`
-	CreateAt        time.Time `db:"CreateAt"`
-	UpdatedAt       time.Time `db:"UpdatedAt"`
+	Id              int64     `db:"id"`
+	Name            string    `db:"name"`
+	NumberOfClasses int64     `db:"numberofclasses"`
+	CallCenter      string    `db:"callcenter"`
+	Address         string    `db:"address"`
+	CreatedAt       time.Time `db:"createdat"`
+	UpdatedAt       time.Time `db:"updatedClassIdt"`
 }
 
 type Scores struct {
@@ -37,13 +37,23 @@ type Scores struct {
 	SubjectId int64     `db:"SubjectId"`
 	PupilId   int64     `db:"PupilId"`
 	Score     string    `db:"Score"`
-	CreateAt  time.Time `db:"CreateAt"`
+	CreatedAt time.Time `db:"CreatedAt"`
 	UpdatedAt time.Time `db:"UpdatedAt"`
 }
 
 type Subject struct {
 	Id        int64     `db:"Id"`
 	Name      string    `db:"Name"`
-	CreateAt  time.Time `db:"CreateAt"`
+	CreatedAt time.Time `db:"CreatedAt"`
 	UpdatedAt time.Time `db:"UpdatedAt"`
+}
+
+type Schools1 struct {
+	Id              int64     `json:"id"`
+	Name            string    `json:"name"`
+	NumberOfClasses int64     `json:"numberofclasses"`
+	CallCenter      string    `json:"callcenter"`
+	Address         string    `json:"address"`
+	CreatedAt       time.Time `json:"createdat"`
+	UpdatedAt       time.Time `json:"updatedClassIdt"`
 }
