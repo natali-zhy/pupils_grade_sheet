@@ -226,3 +226,43 @@ func GetSubjectById() (subject []models.Subject, err error) {
 	}
 	return
 }
+
+
+func UpSchools(ID int64, schools models.Schools) (err error) {
+	fmt.Println(schools.Name)
+
+	_, err = DB.Exec("UPDATE Schools SET (Name, NumberOfClasses, CallCenter, Address, UpdatedAt) "+
+		"VALUES ($1, $2, $3, $4, $5) WHERE Id=$6", schools.Name, schools.NumberOfClasses, schools.CallCenter, schools.Address, schools.UpdatedAt.Format("2006-01-02 15:04:05"), ID)
+	if err != nil {
+		return
+	}
+
+	fmt.Println(schools.Name)
+
+	fmt.Println("Created user with id:", ID)
+	return
+}
+
+
+func DeleteSchools(schools models.Schools, ID int64) (err error) {
+	result := DB.QueryRow("DELETE FROM schools " +
+		"WHERE id=$1", ID)
+
+	err = result.Scan(&schools)
+
+	fmt.Println(&schools)
+	fmt.Println("Delete schools")
+
+	return
+}
+func DeleteClasses(classes models.Classes, ID int64) (err error) {
+	result := DB.QueryRow("DELETE FROM classes " +
+		"WHERE id=$1", ID)
+
+	err = result.Scan(&classes)
+
+	fmt.Println(&classes)
+	fmt.Println("Delete classes")
+
+	return
+}

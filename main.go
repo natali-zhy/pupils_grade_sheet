@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	_ "github.com/gorilla/mux"
 	"io"
 	"log"
 	"strconv"
@@ -69,6 +68,12 @@ func main() {
 	r := chi.NewRouter()
 	r.Get("/schools", GetSchools)
 	r.Post("/schools", AddSchools)
+
+	r.Get("/schools/{ID}/{mode}", GetSchools) // редактирование
+	r.Post("/schools/{ID}/{mode}", UpSchools)
+
+	r.Get("/schools/{ID}/DeleteSchools", DeleteSchools)
+
 	//r.Get("/schools/{bookId}", AddSchools)
 	//r.Put("/schools/{bookId}", AddSchools)
 	//r.Delete("/schools/{bookId}", AddSchools)
@@ -76,14 +81,26 @@ func main() {
 	r.Get("/classes", GetClasses)
 	r.Post("/classes", AddClasses)
 
+	r.Get("/classes/{ID}/DeleteClasses", DeleteClasses)
+
+
 	r.Get("/pupils", GetPupils)
 	r.Post("/pupils", AddPupils)
+
+	r.Get("/pupils/{ID}/DeletePupils", DeletePupils)
+
 
 	r.Get("/scores", GetScores)
 	r.Post("/scores", AddScores)
 
+	r.Get("/scores/{ID}/DeleteScores", DeleteScores)
+
+
 	r.Get("/subject", GetSubject)
 	r.Post("/subject", AddSubject)
+
+	r.Get("/subject/{ID}/DeleteSubject", DeleteSubject)
+
 
 	fileHandle := http.FileServer(http.Dir(".")).ServeHTTP
 
@@ -100,15 +117,109 @@ func main() {
 }
 
 func GetSchools(w http.ResponseWriter, r *http.Request) {
-	sk, err := db.GetSchools()
-	fmt.Println(sk, err)
-	if err != nil {
-		fmt.Println(err)
+
+	userIDstr := chi.URLParam(r, "ID")
+
+	fmt.Println(userIDstr)
+	schools := models.Schools{}
+	fmt.Println(schools)
+
+	userTemp := UserTemp{AddSchools: schools}
+	fmt.Println(userTemp)
+
+	IsEdit := chi.URLParam(r, "mode")
+	fmt.Println(IsEdit)
+
+	if IsEdit == "edit" {
+		userTemp.IsEdit = true
+
+		userID, err := strconv.ParseInt(userIDstr, 10, 64)
+		fmt.Println(userID)
+		if err != nil {
+			w.Write([]byte("Профиль не найден"))
+			return
+		}
+
+		schools, err = db.GetSchoolsById(userID)
+		fmt.Println("schools", schools)
+		if err != nil {
+			w.Write([]byte("Не могу выбрать профиль из базы"))
+			return
+		}
+
+		sk, err := db.GetSchools()
+		fmt.Println(sk, err)
+		if err != nil {
+			fmt.Println(err)
+		}
+		userTemp.Schools = sk
+
+
+	} else {
+		userTemp.IsEdit = false
+
+		sk, err := db.GetSchools()
+		fmt.Println(sk, err)
+		if err != nil {
+			fmt.Println(err)
+		}
+		userTemp.Schools = sk
+
 	}
-	userTemp := UserTemp{IsEdit: true, Schools: sk}
+	fmt.Println("IsEdit", IsEdit)
+
+
+	userTemp.AddSchools = schools
+
+
+
+	//userTemp := UserTemp{ Schools: sk}
 
 	RenderTempl(w, "templates/schools.html", userTemp)
 }
+
+func UpSchools(w http.ResponseWriter, r *http.Request) {
+
+	userIDstr := chi.URLParam(r, "ID")
+	id, err := strconv.ParseInt(userIDstr, 10, 64)
+	if err != nil {
+		w.Write([]byte("Профиль не найден"))
+		return
+	}
+
+	schools := models.Schools{
+		UpdatedAt: time.Now(),
+	}
+
+	schools.Name = r.FormValue("Name")
+	schools.NumberOfClasses, _ = strconv.ParseInt(r.FormValue("NumberOfClasses"), 10, 64)
+	schools.CallCenter = r.FormValue("CallCenter")
+	schools.Address = r.FormValue("Address")
+	schools.UpdatedAt.Format("2006-01-02 15:04:05")
+
+	fmt.Println(schools)
+
+	err = db.UpSchools(id, schools)
+	fmt.Println(err)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	sk1, err := db.GetSchools()
+
+	fmt.Println(sk1, err)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(schools.NumberOfClasses)
+	userTemp := UserTemp{IsEdit: true, AddSchools: schools}
+
+	userTemp.Schools = sk1
+
+	RenderTempl(w, "templates/schools.html", userTemp)
+}
+
 
 func GetClasses(w http.ResponseWriter, r *http.Request) {
 	sk, err := db.GetClasses()
@@ -117,7 +228,7 @@ func GetClasses(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	cl := models.Classes{}
-	userTemp := UserTemp{IsEdit: true, Classes: sk, AddClasses: cl}
+	userTemp := UserTemp{ Classes: sk, AddClasses: cl}
 
 	RenderTempl(w, "templates/classes.html", userTemp)
 }
@@ -130,7 +241,7 @@ func GetPupils(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pl := models.Pupils{}
-	userTemp := UserTemp{IsEdit: true, Pupils: sk, AddPupils: pl}
+	userTemp := UserTemp{Pupils: sk, AddPupils: pl}
 
 	RenderTempl(w, "templates/pupils.html", userTemp)
 }
@@ -143,7 +254,7 @@ func GetScores(w http.ResponseWriter, r *http.Request) {
 	}
 
 	score := models.Scores{}
-	userTemp := UserTemp{IsEdit: true, Scores: scores, AddScores: score}
+	userTemp := UserTemp{Scores: scores, AddScores: score}
 
 	RenderTempl(w, "templates/scores.html", userTemp)
 }
@@ -154,7 +265,7 @@ func GetSubject(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	userTemp := UserTemp{IsEdit: true, Subject: subjects}
+	userTemp := UserTemp{Subject: subjects}
 
 	RenderTempl(w, "templates/subject.html", userTemp)
 }
@@ -294,6 +405,78 @@ func AddPupils(w http.ResponseWriter, r *http.Request) {
 	RenderTempl(w, "templates/pupils.html", userTemp)
 }
 
+func DeleteSchools(w http.ResponseWriter, r *http.Request) {
+	userIDstr := chi.URLParam(r, "ID")
+
+	schools := models.Schools{}
+
+	userID, err := strconv.ParseInt(userIDstr, 10, 64)
+
+	err = db.DeleteSchools(schools, userID)
+
+	if err != nil {
+		http.Redirect(w, r, "/schools", http.StatusTemporaryRedirect)
+		return
+	}
+}
+func DeleteClasses(w http.ResponseWriter, r *http.Request) {
+	userIDstr := chi.URLParam(r, "ID")
+
+	classes := models.Classes{}
+
+	userID, err := strconv.ParseInt(userIDstr, 10, 64)
+
+	err = db.DeleteClasses(classes, userID)
+
+	if err != nil {
+		http.Redirect(w, r, "/classes", http.StatusTemporaryRedirect)
+		return
+	}
+}
+func DeletePupils(w http.ResponseWriter, r *http.Request) {
+	userIDstr := chi.URLParam(r, "userID")
+
+	user := models.Schools{}
+
+	userID, err := strconv.ParseInt(userIDstr, 10, 64)
+
+	err = db.DeleteSchools(user, userID)
+
+	if err != nil {
+		http.Redirect(w, r, "/schools", http.StatusTemporaryRedirect)
+		return
+	}
+}
+func DeleteScores(w http.ResponseWriter, r *http.Request) {
+	userIDstr := chi.URLParam(r, "userID")
+
+	user := models.Schools{}
+
+	userID, err := strconv.ParseInt(userIDstr, 10, 64)
+
+	err = db.DeleteSchools(user, userID)
+
+	if err != nil {
+		http.Redirect(w, r, "/schools", http.StatusTemporaryRedirect)
+		return
+	}
+}
+func DeleteSubject(w http.ResponseWriter, r *http.Request) {
+	userIDstr := chi.URLParam(r, "userID")
+
+	user := models.Schools{}
+
+	userID, err := strconv.ParseInt(userIDstr, 10, 64)
+
+	err = db.DeleteSchools(user, userID)
+
+	if err != nil {
+		http.Redirect(w, r, "/schools", http.StatusTemporaryRedirect)
+		return
+	}
+}
+
+
 func RenderTempl(w http.ResponseWriter, tmplName string, data interface{}) {
 	tmpl, err := template.ParseFiles(tmplName)
 	fmt.Println(err)
@@ -313,3 +496,5 @@ func RenderTempl(w http.ResponseWriter, tmplName string, data interface{}) {
 
 	w.Write(body.Bytes())
 }
+
+

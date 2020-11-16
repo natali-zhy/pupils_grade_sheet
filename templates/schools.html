@@ -47,11 +47,12 @@
 </nav>
 <br>
 
-{{if .IsEdit}}
-    <form action="/{{if .Schools.Id}}schools/{{.Schools.Id}}/edit{{else}}schools{{end}}" enctype="multipart/form-data" method="POST">
+    {{/*    <form action="/{{if .Schools.Id}}schools/{{.Schools.Id}}/edit{{else}}schools{{end}}" enctype="multipart/form-data" method="POST">*/}}
+    <form action="/{{if .AddSchools.Id}}schools/{{.AddSchools.Id}}/edit{{else}}schools{{end}}" enctype="multipart/form-data" method="POST">
         <div>
+            <p>{{if .AddSchools.Id}}edit{{.AddSchools.Id}}{{else}}add{{end}}</p>
             <label>
-                Name:<input type="text" name="Name" placeholder="Имя" autocomplete="on"
+                Name:<input type="text" name="Name" placeholder="Имя" autocomplete="off"
                             value="{{.AddSchools.Name}}"/>
                 {{range $keyOrIndex, $value := .Error.Name}}
                     {{if ne $value ""}}
@@ -60,7 +61,7 @@
                 {{end}}
             </label>
             <label>
-                NumberOfClasses:<input type="text" name="NumberOfClasses" placeholder="Имя" autocomplete="on"
+                NumberOfClasses:<input type="text" name="NumberOfClasses" placeholder="Имя" autocomplete="off"
                                        value="{{.AddSchools.NumberOfClasses}}"/>
                 {{range $keyOrIndex, $value := .Error.NumberOfClasses}}
                     {{if ne $value ""}}
@@ -69,7 +70,7 @@
                 {{end}}
             </label>
             <label>
-                CallCenter:<input type="text" name="CallCenter" placeholder="Имя" autocomplete="on"
+                CallCenter:<input type="text" name="CallCenter" placeholder="Имя" autocomplete="off"
                                   value="{{.AddSchools.CallCenter}}"/>
                 {{range $keyOrIndex, $value := .Error.CallCenter}}
                     {{if ne $value ""}}
@@ -78,7 +79,7 @@
                 {{end}}
             </label>
             <label>
-                Address:<input type="text" name="Address" placeholder="Имя" autocomplete="on"
+                Address:<input type="text" name="Address" placeholder="Имя" autocomplete="off"
                                value="{{.AddSchools.Address}}"/>
                 {{range $keyOrIndex, $value := .Error.Address}}
                     {{if ne $value ""}}
@@ -90,8 +91,6 @@
             <input id="bt" type="submit" value="Добавить"/>
         </div>
     </form>
-
-{{end}}
 
 <table class="table">
     <thead class="thead-dark">
@@ -107,6 +106,40 @@
     </tr>
     </thead>
     <tbody>
+
+
+{{/*            <form action="/schools/{{.AddSchools.Id}}/edit" enctype="multipart/form-data"*/}}
+{{/*                  method="POST">*/}}
+{{/*                <div>*/}}
+{{/*                    <label>*/}}
+{{/*                        Id:<input type="text" name="Id" placeholder="Имя" autocomplete="off"*/}}
+{{/*                                  value="{{.AddSchools.Id}}"/>*/}}
+
+{{/*                    </label><label>*/}}
+{{/*                        Name:<input type="text" name="Name" placeholder="Имя" autocomplete="off"*/}}
+{{/*                                    value="{{.AddSchools.Name}}"/>*/}}
+
+{{/*                    </label><label>*/}}
+{{/*                        NumberOfClasses:<input type="text" name="NumberOfClasses" placeholder="Имя" autocomplete="off"*/}}
+{{/*                                               value="{{.AddSchools.NumberOfClasses}}"/>*/}}
+
+{{/*                    </label>*/}}
+{{/*                    <label>*/}}
+{{/*                        CallCenter:<input type="text" name="CallCenter" placeholder="Имя" autocomplete="off"*/}}
+{{/*                                          value="{{.AddSchools.CallCenter}}"/>*/}}
+
+{{/*                    </label>*/}}
+{{/*                    <label>*/}}
+{{/*                        Address:<input type="text" name="Address" placeholder="Имя" autocomplete="off"*/}}
+{{/*                                       value="{{.AddSchools.Address}}"/>*/}}
+
+{{/*                    </label>*/}}
+
+{{/*                    <input id="bt" type="submit" value="Добавить"/>*/}}
+{{/*                </div>*/}}
+{{/*            </form>*/}}
+{{/*    {{end}}*/}}
+
     {{range .Schools}}
 
 
@@ -118,9 +151,10 @@
             <td>{{.Address}}</td>
             <td>{{.CreatedAt}}</td>
             <td>{{.UpdatedAt}}</td>
-            <td><a href="/schools/{{.Id}}/edit">&#9998</a><a href="/schools/{{.Id}}/DeleteUser">&#128465</a></td>
+            <td><a href="/schools/{{.Id}}/edit">&#9998</a><a href="/schools/{{.Id}}/DeleteSchools">&#128465</a></td>
         </tr>
     {{end}}
+
 
     </tbody>
 </table>
