@@ -48,12 +48,7 @@ type Subject struct {
 	UpdatedAt time.Time `db:"UpdatedAt"`
 }
 
-type Schools1 struct {
-	Id              int64     `json:"id"`
-	Name            string    `json:"name"`
-	NumberOfClasses int64     `json:"numberofclasses"`
-	CallCenter      string    `json:"callcenter"`
-	Address         string    `json:"address"`
-	CreatedAt       time.Time `json:"createdat"`
-	UpdatedAt       time.Time `json:"updatedClassIdt"`
+type User struct {
+	Login    string `db:"username" validate:"required,cyr,max=50,min=2"`
+	Password string `db:"password" validate:"required,alpha,cyr,max=50,min=4"`
 }

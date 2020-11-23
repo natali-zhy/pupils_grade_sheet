@@ -1,22 +1,25 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jinzhu/gorm"
+	"github.com/jmoiron/sqlx"
 )
 
-var DB *sql.DB
+var DB *sqlx.DB
 
-func InitDB() {
-	conn, err := sql.Open("postgres", "user=postgres password=1111 dbname=students sslmode=disable")
+func New(user string, password string, database string) {
+	dataSourceName := "user=" + user + " password=" + password + " dbname=" + database + " sslmode=disable"
+
+	db, err := sqlx.Open("postgres", dataSourceName)
 	if err != nil {
-		panic(err)
-	} else {
-		fmt.Println("DB OK")
+		fmt.Errorf("db: %w", err)
 	}
 
-	DB = conn
-}
+	if err = db.Ping(); err != nil {
+		fmt.Errorf("db: %w", err)
+	}
 
+	DB = db
+}

@@ -231,15 +231,15 @@ func GetSubjectById() (subject []models.Subject, err error) {
 func UpSchools(ID int64, schools models.Schools) (err error) {
 	fmt.Println(schools.Name)
 
-	_, err = DB.Exec("UPDATE Schools SET (Name, NumberOfClasses, CallCenter, Address, UpdatedAt) "+
-		"VALUES ($1, $2, $3, $4, $5) WHERE Id=$6", schools.Name, schools.NumberOfClasses, schools.CallCenter, schools.Address, schools.UpdatedAt.Format("2006-01-02 15:04:05"), ID)
+	_, err = DB.Exec("UPDATE Schools SET Name=$1, NumberOfClasses=$2, CallCenter=$3, Address=$4, UpdatedAt=$5 "+
+		"WHERE Id=$6", schools.Name, schools.NumberOfClasses, schools.CallCenter, schools.Address, schools.UpdatedAt.Format("2006-01-02 15:04:05"), ID)
 	if err != nil {
 		return
 	}
 
 	fmt.Println(schools.Name)
 
-	fmt.Println("Created user with id:", ID)
+	fmt.Println("UpSchools user with id:", ID)
 	return
 }
 

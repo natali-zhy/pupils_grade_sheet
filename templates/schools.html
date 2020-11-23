@@ -13,11 +13,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="navbar-brand"><img style="width: 40px; height: 40px"
                                    src="https://img.icons8.com/carbon-copy/344/school.png" alt="Freepik"></div>
+    <a class="navbar-brand" href="/">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
@@ -38,59 +38,106 @@
             </li>
 
         </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/login">login</a>
+            </li>
+        </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="search form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
                    style="width: auto;">
             <button class="btn btn-outline-success my-2 my-sm-0 " type="submit">Search</button>
         </form>
+
+
     </div>
 </nav>
 <br>
+{{/*{{if .IsEdit}}*/}}
 
-    {{/*    <form action="/{{if .Schools.Id}}schools/{{.Schools.Id}}/edit{{else}}schools{{end}}" enctype="multipart/form-data" method="POST">*/}}
-    <form action="/{{if .AddSchools.Id}}schools/{{.AddSchools.Id}}/edit{{else}}schools{{end}}" enctype="multipart/form-data" method="POST">
+
+{{/*    */}}{{/*    <form action="/{{if .Schools.Id}}schools/{{.Schools.Id}}/edit{{else}}schools{{end}}" enctype="multipart/form-data" method="POST">*/}}
+{{/*    <form action="/{{if .AddSchools.Id}}schools/{{.AddSchools.Id}}/edit{{else}}schools{{end}}" enctype="multipart/form-data" method="POST">*/}}
+{{/*        <div>*/}}
+{{/*            <p>{{if .AddSchools.Id}}edit{{.AddSchools.Id}}{{else}}add{{.AddSchools.Id}}{{end}}</p>*/}}
+{{/*            <label>*/}}
+{{/*                Name:<input type="text" name="Name" placeholder="Имя" autocomplete="off"*/}}
+{{/*                            value="{{.AddSchools.Name}}"/>*/}}
+{{/*                {{range $keyOrIndex, $value := .Error.Name}}*/}}
+{{/*                    {{if ne $value ""}}*/}}
+{{/*                        <p>{{$value}}</p>*/}}
+{{/*                    {{end}}*/}}
+{{/*                {{end}}*/}}
+{{/*            </label>*/}}
+{{/*            <label>*/}}
+{{/*                NumberOfClasses:<input type="text" name="NumberOfClasses" placeholder="Имя" autocomplete="off"*/}}
+{{/*                                       value="{{.AddSchools.NumberOfClasses}}"/>*/}}
+{{/*                {{range $keyOrIndex, $value := .Error.NumberOfClasses}}*/}}
+{{/*                    {{if ne $value ""}}*/}}
+{{/*                        <p>{{$value}}</p>*/}}
+{{/*                    {{end}}*/}}
+{{/*                {{end}}*/}}
+{{/*            </label>*/}}
+{{/*            <label>*/}}
+{{/*                CallCenter:<input type="text" name="CallCenter" placeholder="Имя" autocomplete="off"*/}}
+{{/*                                  value="{{.AddSchools.CallCenter}}"/>*/}}
+{{/*                {{range $keyOrIndex, $value := .Error.CallCenter}}*/}}
+{{/*                    {{if ne $value ""}}*/}}
+{{/*                        <p>{{$value}}</p>*/}}
+{{/*                    {{end}}*/}}
+{{/*                {{end}}*/}}
+{{/*            </label>*/}}
+{{/*            <label>*/}}
+{{/*                Address:<input type="text" name="Address" placeholder="Имя" autocomplete="off"*/}}
+{{/*                               value="{{.AddSchools.Address}}"/>*/}}
+{{/*                {{range $keyOrIndex, $value := .Error.Address}}*/}}
+{{/*                    {{if ne $value ""}}*/}}
+{{/*                        <p>{{$value}}</p>*/}}
+{{/*                    {{end}}*/}}
+{{/*                {{end}}*/}}
+{{/*            </label>*/}}
+
+{{/*            <input id="bt" type="submit" value="Добавить"/>{{if .AddSchools.Id}}или <a href="/addNewUser">создать*/}}
+{{/*            нового</a>{{end}}*/}}
+{{/*        </div>*/}}
+{{/*    </form>*/}}
+{{/*{{end}}*/}}
+
+{{if .IsEdit}}
+
+
+    <form action="/schools/{{.AddSchools.Id}}/edit" enctype="multipart/form-data"
+          method="POST">
         <div>
-            <p>{{if .AddSchools.Id}}edit{{.AddSchools.Id}}{{else}}add{{end}}</p>
+            {{/*                    <label>*/}}
+            {{/*                        Id:<input type="text" name="Id" placeholder="Имя" autocomplete="off"*/}}
+            {{/*                                  value="{{.AddSchools.Id}}"/>*/}}
+
+            {{/*                    </label>*/}}
             <label>
                 Name:<input type="text" name="Name" placeholder="Имя" autocomplete="off"
                             value="{{.AddSchools.Name}}"/>
-                {{range $keyOrIndex, $value := .Error.Name}}
-                    {{if ne $value ""}}
-                        <p>{{$value}}</p>
-                    {{end}}
-                {{end}}
-            </label>
-            <label>
+
+            </label><label>
                 NumberOfClasses:<input type="text" name="NumberOfClasses" placeholder="Имя" autocomplete="off"
                                        value="{{.AddSchools.NumberOfClasses}}"/>
-                {{range $keyOrIndex, $value := .Error.NumberOfClasses}}
-                    {{if ne $value ""}}
-                        <p>{{$value}}</p>
-                    {{end}}
-                {{end}}
+
             </label>
             <label>
                 CallCenter:<input type="text" name="CallCenter" placeholder="Имя" autocomplete="off"
                                   value="{{.AddSchools.CallCenter}}"/>
-                {{range $keyOrIndex, $value := .Error.CallCenter}}
-                    {{if ne $value ""}}
-                        <p>{{$value}}</p>
-                    {{end}}
-                {{end}}
+
             </label>
             <label>
                 Address:<input type="text" name="Address" placeholder="Имя" autocomplete="off"
                                value="{{.AddSchools.Address}}"/>
-                {{range $keyOrIndex, $value := .Error.Address}}
-                    {{if ne $value ""}}
-                        <p>{{$value}}</p>
-                    {{end}}
-                {{end}}
+
             </label>
 
             <input id="bt" type="submit" value="Добавить"/>
         </div>
     </form>
+{{end}}
 
 <table class="table">
     <thead class="thead-dark">
@@ -107,38 +154,6 @@
     </thead>
     <tbody>
 
-
-{{/*            <form action="/schools/{{.AddSchools.Id}}/edit" enctype="multipart/form-data"*/}}
-{{/*                  method="POST">*/}}
-{{/*                <div>*/}}
-{{/*                    <label>*/}}
-{{/*                        Id:<input type="text" name="Id" placeholder="Имя" autocomplete="off"*/}}
-{{/*                                  value="{{.AddSchools.Id}}"/>*/}}
-
-{{/*                    </label><label>*/}}
-{{/*                        Name:<input type="text" name="Name" placeholder="Имя" autocomplete="off"*/}}
-{{/*                                    value="{{.AddSchools.Name}}"/>*/}}
-
-{{/*                    </label><label>*/}}
-{{/*                        NumberOfClasses:<input type="text" name="NumberOfClasses" placeholder="Имя" autocomplete="off"*/}}
-{{/*                                               value="{{.AddSchools.NumberOfClasses}}"/>*/}}
-
-{{/*                    </label>*/}}
-{{/*                    <label>*/}}
-{{/*                        CallCenter:<input type="text" name="CallCenter" placeholder="Имя" autocomplete="off"*/}}
-{{/*                                          value="{{.AddSchools.CallCenter}}"/>*/}}
-
-{{/*                    </label>*/}}
-{{/*                    <label>*/}}
-{{/*                        Address:<input type="text" name="Address" placeholder="Имя" autocomplete="off"*/}}
-{{/*                                       value="{{.AddSchools.Address}}"/>*/}}
-
-{{/*                    </label>*/}}
-
-{{/*                    <input id="bt" type="submit" value="Добавить"/>*/}}
-{{/*                </div>*/}}
-{{/*            </form>*/}}
-{{/*    {{end}}*/}}
 
     {{range .Schools}}
 

@@ -1,0 +1,10 @@
+{
+  "AddrHttp": ":3005",
+  "Templates": "/",
+  "db": {
+    "AddrPostgres": "localhost",
+    "UserPostgres": "postgres",
+    "PasswordPostgres": "1111",
+    "Database": "students"
+  }
+}
